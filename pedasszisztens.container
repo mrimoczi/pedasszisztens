@@ -1,0 +1,21 @@
+[Unit]
+Description=Pedasszisztens Web Container
+
+[Container]
+Image=ghcr.io/mrimoczi/pedasszisztens:latest
+ContainerName=pedasszisztens-web
+Network=traefik-net
+AutoUpdate=registry
+PodmanArgs=--authfile /etc/containers/auth.json
+
+# Traefik labels
+Label=traefik.enable=true
+Label="traefik.http.routers.pedasszisztens-web.rule=Host(`pedasszisztens.home.morte.ninja`)"
+Label=traefik.http.routers.pedasszisztens-web.entrypoints=web
+Label=traefik.http.services.pedasszisztens-web.loadbalancer.server.port=80
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
