@@ -2,9 +2,10 @@
 """Generate the recorded voice for the written-exam questions (requires: pip install edge-tts).
 
 Reads the question data embedded in src/index.html and writes, for each topic:
-  src/hangok/wNN.mp3         the concatenated audio, served by the app
+  src/hangok/wNN.mp3         the concatenated audio of the full answers ("Kidolgozás")
+  src/hangok/wNN-roviden.mp3 the same for the concise answers ("Röviden")
   src/hangok/reszek/*.mp3    one cached part per paragraph, named by the SHA-1 of its text
-  src/hangok/manifest.json   and timings.js entries for wNN
+  src/hangok/manifest.json   and timings.js entries for both
 
 Unchanged paragraphs are reused, so rerunning after a text edit only synthesizes what changed.
 The segment order must match the .rd elements that renderWritten() creates in index.html.
@@ -55,12 +56,12 @@ def part_id(text):
     return hashlib.sha1(text.encode('utf8')).hexdigest()[:12]
 
 
-def topic_segments(topic):
+def topic_segments(topic, field):
     """Spoken text of each reading segment, in the DOM order of renderWritten()."""
     segments = [topic['name'] + '.']
     for question in topic['q']:
         segments.append(question['q'])
-        for block in question['blocks']:
+        for block in question[field]:
             segments.extend([block['text']] if block['t'] == 'p' else block['items'])
     return [speakable(s) for s in segments]
 
@@ -103,7 +104,10 @@ def main():
     html = (SRC / 'index.html').read_text(encoding='utf8')
     data = re.search(r'<script id="written" type="application/json">(.*?)</script>', html, re.S).group(1)
     topics = json.loads(data.replace('<\\/', '</'))
-    by_key = {f'w{i + 1:02d}': topic_segments(t) for i, t in enumerate(topics)}
+    by_key = {}
+    for i, topic in enumerate(topics):
+        by_key[f'w{i + 1:02d}'] = topic_segments(topic, 'blocks')
+        by_key[f'w{i + 1:02d}-roviden'] = topic_segments(topic, 'short')
 
     asyncio.run(synthesize_missing([s for segments in by_key.values() for s in segments]))
 

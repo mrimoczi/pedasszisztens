@@ -1,6 +1,6 @@
-# Pedagógiai asszisztens – központi írásbeli kérdések röviden
+# Pedagógiai asszisztens – központi írásbeli kérdések kidolgozva
 
-A tartalom az *írásbeli-témakörök.docx* alapján készült. Az azonos kérdések egy helyre kerültek, a más megfogalmazásokat az „Így is kérdezhetik” sor jelzi. A „Javítva” megjegyzés ott áll, ahol a válasz érdemben eltér a docx-től. A jogszabályi pontok a 2026. októberi hatályos szöveg szerint készültek.
+A tartalom az *írásbeli-témakörök.docx* alapján készült; a tömör változat az *Irasbeli_roviden.md* fájlban van. Az azonos kérdések egy helyre kerültek, a más megfogalmazásokat az „Így is kérdezhetik” sor jelzi. A „Javítva” megjegyzés ott áll, ahol a válasz érdemben eltér a docx-től. A jogszabályi pontok a 2026. októberi hatályos szöveg szerint készültek.
 
 ## Pedagógia, neveléselmélet
 
